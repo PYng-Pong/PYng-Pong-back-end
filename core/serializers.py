@@ -19,3 +19,10 @@ class JogoSerializer(ModelSerializer):
     class Meta:
         model = Jogo
         fields = "__all__"
+
+
+class JogoDetailSerializer(ModelSerializer):
+    class Meta:
+        model = Jogo
+        fields = "__all__"
+        depth = 1

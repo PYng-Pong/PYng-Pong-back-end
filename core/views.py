@@ -1,7 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 
 from core.models import Jogador, Partida, Jogo
-from core.serializers import JogadorSerializer, PartidaSerializer, JogoSerializer
+from core.serializers import (
+    JogadorSerializer,
+    PartidaSerializer,
+    JogoSerializer,
+    JogoDetailSerializer,
+)
 
 
 class JogadorViewSet(ModelViewSet):
@@ -16,4 +21,8 @@ class PartidaViewSet(ModelViewSet):
 
 class JogoViewSet(ModelViewSet):
     queryset = Jogo.objects.all()
-    serializer_class = JogoSerializer
+
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return JogoDetailSerializer
+        return JogoSerializer
