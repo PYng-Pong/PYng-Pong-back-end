@@ -14,6 +14,7 @@ django-cors-headers = "^3.13.0"
 gunicorn = "^20.1.0"
 whitenoise = "^6.2.0"
 djangorestframework-simplejwt = "^5.2.2"
+drf-spectacular = "^0.24.2"
 
 
 [tool.poetry.group.dev.dependencies]

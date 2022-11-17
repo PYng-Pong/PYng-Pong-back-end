@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "djoser",
+    "drf_spectacular",
     "core",
 ]
 
@@ -101,10 +102,17 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "PYng-Pong API",
+    "DESCRIPTION": "API para gerenciamento de partidas de tênis de mesa, incluindo endpoints e documentação.",
+    "VERSION": "1.0.0",
 }
 
 # Internationalization
