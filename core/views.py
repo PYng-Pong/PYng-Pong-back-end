@@ -1,11 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
-from core.models import Jogador, Partida, Jogo
+from core.models import Jogador, Jogo, Partida
 from core.serializers import (
     JogadorSerializer,
-    PartidaSerializer,
-    JogoSerializer,
     JogoDetailSerializer,
+    JogoSerializer,
+    PartidaSerializer,
 )
 
 

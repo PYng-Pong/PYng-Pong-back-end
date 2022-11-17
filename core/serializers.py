@@ -1,12 +1,10 @@
 from django.contrib.auth.models import Group
+
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from djoser.serializers import UserSerializer
 from rest_framework.serializers import ModelSerializer
 
-from djoser.serializers import (
-    UserCreateSerializer as BaseUserRegistrationSerializer,
-    UserSerializer,
-)
-
-from core.models import Jogador, Partida, Jogo
+from core.models import Jogador, Jogo, Partida
 
 
 class JogadorSerializer(ModelSerializer):
