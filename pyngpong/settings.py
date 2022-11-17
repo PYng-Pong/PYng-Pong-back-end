@@ -115,6 +115,13 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
 }
 
+DJOSER = {
+    "SERIALIZERS": {
+        "user_create": "core.serializers.CustomUserRegistrationSerializer",
+        "current_user": "core.serializers.CustomUserSerializer",
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
