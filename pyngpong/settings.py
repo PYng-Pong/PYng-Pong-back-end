@@ -13,18 +13,18 @@ environ.Env.read_env((os.path.join(BASE_DIR, ".env")))
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
-# DATABASES = {"default": env.db()}
+DATABASES = {"default": env.db()}
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "db_pyng_pong",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "db_pyng_pong",
+#         "USER": "aluno",
+#         "PASSWORD": "aluno",
+#         "HOST": "127.0.0.1",
+#         "PORT": "3306",
+#     }
+# }
 
 # CREATE DATABASE db_pyng_pong;
 
