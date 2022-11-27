@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import environ
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,18 +13,18 @@ environ.Env.read_env((os.path.join(BASE_DIR, ".env")))
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
-DATABASES = {"default": env.db()}
+# DATABASES = {"default": env.db()}
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "db_pyng_pong",
-#         "USER": "aluno",
-#         "PASSWORD": "aluno",
-#         "HOST": "127.0.0.1",
-#         "PORT": "3306",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "db_pyng_pong",
+        "USER": "root",
+        "PASSWORD": "root",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+    }
+}
 
 # CREATE DATABASE db_pyng_pong;
 
@@ -37,12 +38,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "corsheaders",
     "rest_framework",
-    "djoser",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "drf_spectacular",
     "core",
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -100,26 +109,43 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissions",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("Bearer",),
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "core.serializers.CustomUserDetailsSerializer",
 }
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "core.serializers.CustomRegisterSerializer",
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+}
+
+REST_USE_JWT = True
+
+JWT_AUTH_COOKIE = "access"
+JWT_AUTH_REFRESH_COOKIE = "refresh"
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "PYng-Pong API",
     "DESCRIPTION": "API para gerenciamento de partidas de tênis de mesa, incluindo endpoints e documentação.",
     "VERSION": "1.0.0",
-}
-
-DJOSER = {
-    "SERIALIZERS": {
-        "user_create": "core.serializers.CustomUserRegistrationSerializer",
-        "current_user": "core.serializers.CustomUserSerializer",
-    },
 }
 
 # Internationalization

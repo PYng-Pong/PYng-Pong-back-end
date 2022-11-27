@@ -1,13 +1,20 @@
 from django.contrib.auth.models import Group
 
-from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
-from djoser.serializers import UserSerializer
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework.serializers import ModelSerializer
 
 from core.models import Jogador, Jogo, Partida
 
 
+class CustomUserDetailNestedSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        fields = ["pk", "username", "first_name", "last_name"]
+
+
 class JogadorSerializer(ModelSerializer):
+    criado_por = CustomUserDetailNestedSerializer()
+
     class Meta:
         model = Jogador
         fields = "__all__"
@@ -26,27 +33,21 @@ class JogoSerializer(ModelSerializer):
 
 
 class JogoDetailSerializer(ModelSerializer):
+    criado_por = CustomUserDetailNestedSerializer()
+
     class Meta:
         model = Jogo
         fields = "__all__"
         depth = 1
 
 
-class CustomUserRegistrationSerializer(BaseUserRegistrationSerializer):
-    class Meta(BaseUserRegistrationSerializer.Meta):
-        fields = (
-            "id",
-            "email",
-            "username",
-            "password",
-        )
-
-    def perform_create(self, validated_data):
-        user = super().perform_create(validated_data)
+class CustomRegisterSerializer(RegisterSerializer):
+    def save(self, request):
+        user = super().save(request)
         user.groups.add(Group.objects.get(name="praticante"))
         return user
 
 
-class CustomUserSerializer(UserSerializer):
-    class Meta(UserSerializer.Meta):
-        fields = ("id", "username", "email", "is_staff")
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + ("is_active", "is_staff")
