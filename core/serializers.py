@@ -13,17 +13,18 @@ class CustomUserDetailNestedSerializer(UserDetailsSerializer):
 
 
 class JogadorSerializer(ModelSerializer):
-    criado_por = CustomUserDetailNestedSerializer()
-
     class Meta:
         model = Jogador
         fields = "__all__"
 
 
-class PartidaSerializer(ModelSerializer):
+class JogadorDetailSerializer(ModelSerializer):
+    criado_por = CustomUserDetailNestedSerializer()
+
     class Meta:
-        model = Partida
+        model = Jogador
         fields = "__all__"
+        depth = 1
 
 
 class JogoSerializer(ModelSerializer):
@@ -39,6 +40,12 @@ class JogoDetailSerializer(ModelSerializer):
         model = Jogo
         fields = "__all__"
         depth = 1
+
+
+class PartidaSerializer(ModelSerializer):
+    class Meta:
+        model = Partida
+        fields = "__all__"
 
 
 class CustomRegisterSerializer(RegisterSerializer):
