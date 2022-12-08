@@ -15,7 +15,7 @@ class JogadorViewSet(ModelViewSet):
 
     def get_queryset(self):
         usuario = self.request.user.id
-        return Jogador.objects.filter(usuario=usuario)
+        return Jogador.objects.filter(criado_por=usuario)
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
