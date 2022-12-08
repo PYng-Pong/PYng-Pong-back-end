@@ -13,6 +13,10 @@ from core.serializers import (
 class JogadorViewSet(ModelViewSet):
     queryset = Jogador.objects.all()
 
+    def get_queryset(self):
+        usuario = self.request.user.id
+        return Jogador.objects.filter(usuario=usuario)
+
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
             return JogadorDetailSerializer
